@@ -3,10 +3,9 @@ import { ServerStyleSheet } from 'styled-components'
 import Helmet from 'react-helmet'
 
 export default class extends Document {
-  static async getInitialProps(...args) {
-    const documentProps = await super.getInitialProps(...args)
+  static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet()
-    const page = documentProps.renderPage(App => props =>
+    const page = renderPage(App => props =>
       sheet.collectStyles(<App {...props} />)
     )
     const styleTags = sheet.getStyleElement()
