@@ -2,6 +2,7 @@ import Layout from '../layouts/layout'
 import styled from 'styled-components'
 import * as FontAwesome from 'react-icons/lib/fa'
 import media from '../layouts/media'
+import Helmet from 'react-helmet'
 
 const StyledMain = styled.main`
   align-self: flex-start;
@@ -136,7 +137,10 @@ const IndexPage = props => (
   </Layout>
 )
 
-IndexPage.getInitialProps = async ({ pathname }) => {
+IndexPage.getInitialProps = async ({ pathname, req }) => {
+  if (req) {
+    Helmet.renderStatic()
+  }
   return { pathname: pathname }
 }
 
