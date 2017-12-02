@@ -10,6 +10,9 @@ import NavigationLink from '../components/navigation-link'
 import Footer from '../components/footer'
 import media from './media'
 import * as FontAwesome from 'react-icons/lib/fa'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { themeTypes, toggleTheme } from '../store'
 
 injectGlobal`
   * { margin: 0; padding: 0; }
@@ -112,19 +115,14 @@ const ThemeSpan = styled.span`
 const navigations = ['Home', 'Blog']
 const navigationPaths = ['/', '/blog']
 
-export default class Layout extends React.Component {
+class Layout extends React.Component {
   constructor(props) {
     super(props)
-    const currentHour = new Date().getHours()
-    const theme = currentHour >= 6 && currentHour < 18 ? 'normal' : 'dark'
-    this.state = { theme: theme }
     this.handleThemeButtonClick = this.handleThemeButtonClick.bind(this)
   }
 
   handleThemeButtonClick() {
-    this.setState(prevState => ({
-      theme: prevState.theme === 'normal' ? 'dark' : 'normal'
-    }))
+    this.props.toggleTheme()
   }
 
   render() {
@@ -136,8 +134,10 @@ export default class Layout extends React.Component {
         : ''
     const title = 'Wilbert Liu'
     const siteUrl = `https://wilbertliu.com${pathname}`
-    const theme = this.state.theme === 'normal' ? normalTheme : darkTheme
-    const themeWording = this.state.theme === 'normal' ? 'DARK' : 'LIGHT'
+    const theme =
+      this.props.theme === themeTypes.LIGHT ? normalTheme : darkTheme
+    const themeWording =
+      this.props.theme === themeTypes.LIGHT ? themeTypes.DARK : themeTypes.LIGHT
 
     return (
       <ThemeProvider theme={theme}>
@@ -195,3 +195,13 @@ export default class Layout extends React.Component {
     )
   }
 }
+
+const mapStateToProps = ({ theme }) => ({ theme })
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleTheme: bindActionCreators(toggleTheme, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout)

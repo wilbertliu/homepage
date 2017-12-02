@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import * as FontAwesome from 'react-icons/lib/fa'
 import media from '../layouts/media'
 import Helmet from 'react-helmet'
+import { initStore } from '../store'
+import withRedux from 'next-redux-wrapper'
 
 const StyledMain = styled.main`
   align-self: flex-start;
@@ -144,4 +146,4 @@ IndexPage.getInitialProps = async ({ pathname, req }) => {
   return { pathname: pathname }
 }
 
-export default IndexPage
+export default withRedux(initStore)(IndexPage)
