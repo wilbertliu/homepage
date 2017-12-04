@@ -149,7 +149,10 @@ class Layout extends React.Component {
   }
 
   render() {
-    if (this.props.isServer && !this.state.isThemeReseted) {
+    const isServer = this.props.isServer
+    const isThemeReseted = this.state.isThemeReseted
+
+    if (isServer && !isThemeReseted) {
       return <div />
     }
 
@@ -168,7 +171,7 @@ class Layout extends React.Component {
 
     return (
       <ThemeProvider theme={theme}>
-        <Root>
+        <Root isServer={isServer} isThemeReseted={isThemeReseted}>
           <Container noScroll={!pathname.startsWith('/blog')}>
             <Helmet>
               <title>
