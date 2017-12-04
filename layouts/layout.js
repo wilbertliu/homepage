@@ -118,6 +118,7 @@ const navigationPaths = ['/', '/blog']
 class Layout extends React.Component {
   constructor(props) {
     super(props)
+    this.state = { isThemeReseted: false }
     this.handleThemeButtonClick = this.handleThemeButtonClick.bind(this)
   }
 
@@ -130,10 +131,15 @@ class Layout extends React.Component {
     // because we need to get the client's time.
     if (this.props.isServer) {
       this.props.resetTheme()
+      this.setState({ isThemeReseted: true })
     }
   }
 
   render() {
+    if (this.props.isServer && !this.state.isThemeReseted) {
+      return <div />
+    }
+
     const pathname = this.props.pathname
     const navigationIndex = navigationPaths.indexOf(pathname)
     const pageName =
