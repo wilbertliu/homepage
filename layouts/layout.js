@@ -9,6 +9,7 @@ import NavigationLink from '../components/navigation-link'
 import Footer from '../components/footer'
 import media from './media'
 import * as FontAwesome from 'react-icons/lib/fa'
+import Loader from '../components/loader'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { themeTypes, toggleTheme, resetTheme } from '../store'
@@ -153,7 +154,7 @@ class Layout extends React.Component {
     const isThemeReseted = this.state.isThemeReseted
 
     if (isServer && !isThemeReseted) {
-      return <div />
+      return <Loader />
     }
 
     const pathname = this.props.pathname
