@@ -1,8 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
-import { injectGlobal } from 'styled-components'
-import { ThemeProvider } from 'styled-components'
+import { injectGlobal, ThemeProvider, keyframes } from 'styled-components'
 import normalTheme from '../themes/normal-theme'
 import darkTheme from '../themes/dark-theme'
 import Navigation from '../components/navigation'
@@ -26,8 +25,22 @@ injectGlobal`
   }
 `
 
+const fadeInAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`
+
 const Root = styled.div`
   background-color: ${props => props.theme.color.background};
+  animation: ${props =>
+    props.isServer && props.isThemeReseted
+      ? `0.5s ${fadeInAnimation}`
+      : '0s none'};
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
   -o-transition: 0.5s;
@@ -126,7 +139,7 @@ class Layout extends React.Component {
     this.props.toggleTheme()
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // Reset theme if this component is rendered on server
     // because we need to get the client's time.
     if (this.props.isServer) {
