@@ -109,7 +109,7 @@ const StyledLink = styled.a`
 `
 
 const IndexPage = props => (
-  <Layout pathname={props.pathname}>
+  <Layout pathname={props.pathname} isServer={props.isServer}>
     <StyledMain>
       <StyledName>Wilbert Liu</StyledName>
 
@@ -140,10 +140,11 @@ const IndexPage = props => (
 )
 
 IndexPage.getInitialProps = async ({ pathname, req }) => {
-  if (req) {
+  const isServer = !!req
+  if (isServer) {
     Helmet.renderStatic()
   }
-  return { pathname: pathname }
+  return { pathname: pathname, isServer: isServer }
 }
 
 export default withRedux(initStore)(IndexPage)

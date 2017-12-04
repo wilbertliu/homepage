@@ -19,7 +19,8 @@ const initialState = {
 }
 
 const actionTypes = {
-  TOGGLE_THEME: 'TOGGLE_THEME'
+  TOGGLE_THEME: 'TOGGLE_THEME',
+  RESET_THEME: 'RESET_THEME'
 }
 
 const reducer = (state = initialState, action) => {
@@ -29,6 +30,8 @@ const reducer = (state = initialState, action) => {
         theme:
           state.theme === themeTypes.LIGHT ? themeTypes.DARK : themeTypes.LIGHT
       }
+    case actionTypes.RESET_THEME:
+      return initialState
     default:
       return state
   }
@@ -36,6 +39,10 @@ const reducer = (state = initialState, action) => {
 
 export const toggleTheme = () => dispatch => {
   return dispatch({ type: actionTypes.TOGGLE_THEME })
+}
+
+export const resetTheme = () => dispatch => {
+  return dispatch({ type: actionTypes.RESET_THEME })
 }
 
 export const initStore = (initialState = initialState) => {

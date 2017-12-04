@@ -12,7 +12,7 @@ import media from './media'
 import * as FontAwesome from 'react-icons/lib/fa'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { themeTypes, toggleTheme } from '../store'
+import { themeTypes, toggleTheme, resetTheme } from '../store'
 
 injectGlobal`
   * { margin: 0; padding: 0; }
@@ -125,6 +125,14 @@ class Layout extends React.Component {
     this.props.toggleTheme()
   }
 
+  componentWillMount() {
+    // Reset theme if this component is rendered on server
+    // because we need to get the client's time.
+    if (this.props.isServer) {
+      this.props.resetTheme()
+    }
+  }
+
   render() {
     const pathname = this.props.pathname
     const navigationIndex = navigationPaths.indexOf(pathname)
@@ -200,7 +208,8 @@ const mapStateToProps = ({ theme }) => ({ theme })
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleTheme: bindActionCreators(toggleTheme, dispatch)
+    toggleTheme: bindActionCreators(toggleTheme, dispatch),
+    resetTheme: bindActionCreators(resetTheme, dispatch)
   }
 }
 
