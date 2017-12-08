@@ -31,7 +31,7 @@ exports.fetchAllPost = async () => {
         title: parsedMarkdown.attributes.title,
         date: dateFormat(parsedMarkdown.attributes.date, 'mmm d, yyyy'),
         timeToRead: timeToRead(parsedMarkdown.body),
-        body: ellipsize(parsedMarkdown.body, maxExcerptChar)
+        excerpt: ellipsize(parsedMarkdown.body, maxExcerptChar)
       }
     })
   )

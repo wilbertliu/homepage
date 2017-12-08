@@ -4,27 +4,86 @@ import media from '../layouts/media'
 import Helmet from 'react-helmet'
 import { initStore } from '../store'
 import withRedux from 'next-redux-wrapper'
+import fetch from 'isomorphic-unfetch'
+import BlogPost from '../components/blog-post'
+import Link from 'next/link'
 
-const StyledH1 = styled.h1`
+const Container = styled.main`
+  margin: 72px auto;
+  max-width: 720px;
+
+  ${media.phoneExtraLarge`
+    margin: 64px auto;
+  `};
+  ${media.phoneLarge`
+    margin: 56px auto;
+  `};
+  ${media.phoneMedium`
+    margin: 48px auto;
+  `};
+`
+
+const ReadMoreLink = styled.a`
+  display: inline-block;
+  margin-top: 32px;
   font-family: ${props => props.theme.font.primary};
   font-weight: ${props => props.theme.font.weight.semiBold};
-  font-size: 88px;
+  font-size: 16px;
   color: ${props => props.theme.color.primary};
-  letter-spacing: 4.4px;
+  letter-spacing: 4px;
+  text-decoration: none;
+
+  ${media.phoneExtraLarge`
+    margin-top: 22px;
+    font-size: 14px;
+    letter-spacing: 3.5px;
+    margin-top: 24px;
+  `};
+`
+
+const Separator = styled.div`
+  width: 75%;
+  height: 1px;
+  background-color: ${props => props.theme.color.secondaryHalfTransparent};
+  margin: 72px 0;
+
+  ${media.phoneExtraLarge`
+    margin-top: 56px;
+    margin-bottom: 56px;
+  `};
+  ${media.phoneLarge`
+    margin-top: 40px;
+    margin-bottom: 40px;
+  `};
 `
 
 const BlogPage = props => (
   <Layout pathname={props.pathname} isServer={props.isServer}>
-    <StyledH1>Hello World!</StyledH1>
+    <Container>
+      {props.posts.map((post, idx) => (
+        <article key={idx}>
+          <BlogPost post={post} excerpt />
+          <Link href="" passHref prefetch>
+            <ReadMoreLink>READ MORE</ReadMoreLink>
+          </Link>
+          {idx < props.posts.length - 1 && <Separator />}
+        </article>
+      ))}
+    </Container>
   </Layout>
 )
 
 BlogPage.getInitialProps = async ({ pathname, req }) => {
   const isServer = !!req
+
   if (isServer) {
     Helmet.renderStatic()
   }
-  return { pathname: pathname, isServer: isServer }
+
+  const apiPostsRes = await fetch('http://localhost:3000/api/posts')
+  const apiPostsJSON = await apiPostsRes.json()
+
+  return { pathname: pathname, isServer: isServer, posts: apiPostsJSON.posts }
 }
 
 export default withRedux(initStore)(BlogPage)
