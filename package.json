@@ -8,6 +8,7 @@
   "dependencies": {
     "babel-plugin-styled-components": "^1.3.0",
     "dateformat": "^3.0.2",
+    "ellipsize": "^0.0.3",
     "express": "^4.16.2",
     "front-matter": "^2.3.0",
     "isomorphic-unfetch": "^2.0.0",
