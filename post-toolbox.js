@@ -23,7 +23,7 @@ exports.fetchAllPost = async () => {
   const postsDir = path.join(__dirname, 'posts')
   const fileNames = await readdir(postsDir)
 
-  return Promise.all(
+  const posts = await Promise.all(
     fileNames.map(async fileName => {
       const markdown = await readFile(path.join(postsDir, fileName), 'utf-8')
       const parsedMarkdown = frontMatter(markdown)
@@ -35,4 +35,8 @@ exports.fetchAllPost = async () => {
       }
     })
   )
+
+  return posts.sort((post1, post2) => {
+    return new Date(post2.date).getTime() - new Date(post1.date).getTime()
+  })
 }
