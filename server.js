@@ -5,10 +5,17 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+const postToolbox = require('./post-toolbox')
+
 app
   .prepare()
   .then(() => {
     const server = express()
+
+    server.get('/api/posts', async (req, res) => {
+      const posts = await postToolbox.fetchAllPost()
+      return res.json({ posts })
+    })
 
     server.get('*', (req, res) => {
       return handle(req, res)

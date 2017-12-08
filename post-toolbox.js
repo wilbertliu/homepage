@@ -1,0 +1,38 @@
+const path = require('path')
+const { promisify } = require('util')
+const frontMatter = require('front-matter')
+const fs = require('fs')
+const dateFormat = require('dateformat')
+const ellipsize = require('ellipsize')
+
+const readdir = promisify(fs.readdir)
+const readFile = promisify(fs.readFile)
+
+const timeToRead = text => {
+  const words = text.split(' ').length
+  const standardWordsPerMinute = 200
+  const minutesNeeded = Math.floor(words / standardWordsPerMinute)
+
+  if (minutesNeeded < 1) return '< 1 min'
+  if (minutesNeeded == 1) return '1 min'
+  return `${minutesNeeded} mins`
+}
+
+exports.fetchAllPost = async () => {
+  const maxExcerptChar = 280
+  const postsDir = path.join(__dirname, 'posts')
+  const fileNames = await readdir(postsDir)
+
+  return Promise.all(
+    fileNames.map(async fileName => {
+      const markdown = await readFile(path.join(postsDir, fileName), 'utf-8')
+      const parsedMarkdown = frontMatter(markdown)
+      return {
+        title: parsedMarkdown.attributes.title,
+        date: dateFormat(parsedMarkdown.attributes.date, 'mmm d, yyyy'),
+        timeToRead: timeToRead(parsedMarkdown.body),
+        body: ellipsize(parsedMarkdown.body, maxExcerptChar)
+      }
+    })
+  )
+}
