@@ -63,7 +63,15 @@ const BlogPage = props => (
       {props.posts.map((post, idx) => (
         <article key={idx}>
           <BlogPost post={post} excerpt />
-          <Link href="" passHref prefetch>
+          <Link
+            href={{
+              pathname: '/blog-detail',
+              query: { slug: post.slug }
+            }}
+            as={{ pathname: `/blog/${post.slug}` }}
+            passHref
+            prefetch
+          >
             <ReadMoreLink>READ MORE</ReadMoreLink>
           </Link>
           {idx < props.posts.length - 1 && <Separator />}

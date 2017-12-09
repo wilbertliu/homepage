@@ -17,6 +17,15 @@ app
       return res.json({ posts })
     })
 
+    server.get('/api/post/:slug', async (req, res) => {
+      const post = await postToolbox.fetchPost(req.params.slug)
+      return res.json({ post })
+    })
+
+    server.get('/blog/:slug', (req, res) => {
+      return app.render(req, res, '/blog-detail', { slug: req.params.slug })
+    })
+
     server.get('*', (req, res) => {
       return handle(req, res)
     })

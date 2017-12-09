@@ -52,7 +52,7 @@ const StyledSpan = styled.span`
   `};
 `
 
-const Content = styled.p`
+const Content = styled(Markdown)`
   font-family: ${props => props.theme.font.secondary};
   font-weight: ${props => props.theme.font.weight.regular};
   font-size: 20px;
@@ -67,7 +67,15 @@ const Content = styled.p`
 const BlogPost = props => {
   const post = props.post
   const title = props.excerpt ? (
-    <Link href="" passHref prefetch>
+    <Link
+      href={{
+        pathname: '/blog-detail',
+        query: { slug: post.slug }
+      }}
+      as={{ pathname: `/blog/${post.slug}` }}
+      passHref
+      prefetch
+    >
       <StyledLink>
         <StyledH5>{post.title}</StyledH5>
       </StyledLink>
@@ -76,9 +84,9 @@ const BlogPost = props => {
     <StyledH5>{post.title}</StyledH5>
   )
   const content = props.excerpt ? (
-    <Content>{post.excerpt}</Content>
+    <Content source={post.excerpt} />
   ) : (
-    <Markdown source={post.body} />
+    <Content source={post.body} />
   )
 
   return (

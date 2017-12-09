@@ -18,11 +18,11 @@ injectGlobal`
   * { margin: 0; padding: 0; }
 
   // The following is for article.
-  main article p p {
+  main article div div p {
     margin-bottom: 24px;
   }
-  main article p {
-    margin-bottom: 24px;
+  main article div div p:last-child {
+    margin-bottom: 0;
   }
 `
 
