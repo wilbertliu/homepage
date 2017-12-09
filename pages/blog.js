@@ -59,6 +59,13 @@ const Separator = styled.div`
 
 const BlogPage = props => (
   <Layout pathname={props.pathname} isServer={props.isServer}>
+    <Helmet>
+      <link
+        href="https://fonts.googleapis.com/css?family=Lora:400,400i,700|Poppins:300,500,600"
+        rel="stylesheet"
+      />
+    </Helmet>
+
     <Container>
       {props.posts.map((post, idx) => (
         <article key={idx}>

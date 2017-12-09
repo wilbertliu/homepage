@@ -110,6 +110,13 @@ const StyledLink = styled.a`
 
 const IndexPage = props => (
   <Layout pathname={props.pathname} isServer={props.isServer}>
+    <Helmet>
+      <link
+        href="https://fonts.googleapis.com/css?family=Poppins:300,500,600"
+        rel="stylesheet"
+      />
+    </Helmet>
+
     <StyledMain>
       <StyledName>Wilbert Liu</StyledName>
 
