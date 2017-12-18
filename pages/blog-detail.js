@@ -51,7 +51,7 @@ BlogDetailPage.getInitialProps = async ({ pathname, req, query }) => {
     Helmet.renderStatic()
   }
 
-  const apiPostRes = await fetch(`http://localhost:3000/api/post/${query.slug}`)
+  const apiPostRes = await fetch(`/api/post/${query.slug}`)
   const apiPostJSON = await apiPostRes.json()
 
   return { pathname: pathname, isServer: isServer, post: apiPostJSON.post }

@@ -95,7 +95,7 @@ BlogPage.getInitialProps = async ({ pathname, req }) => {
     Helmet.renderStatic()
   }
 
-  const apiPostsRes = await fetch('http://localhost:3000/api/posts')
+  const apiPostsRes = await fetch('/api/posts')
   const apiPostsJSON = await apiPostsRes.json()
 
   return { pathname: pathname, isServer: isServer, posts: apiPostsJSON.posts }
