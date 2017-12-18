@@ -1,5 +1,5 @@
 import React from 'react'
-import Helmet from 'react-helmet'
+import Head from 'next/head'
 import styled from 'styled-components'
 import { injectGlobal, ThemeProvider, keyframes } from 'styled-components'
 import normalTheme from '../themes/normal-theme'
@@ -10,9 +10,7 @@ import Footer from '../components/footer'
 import media from './media'
 import FaMoonO from 'react-icons/lib/fa/moon-o'
 import Loader from '../components/loader'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { themeTypes, toggleTheme, resetTheme } from '../store'
+import { determineInitialTheme, themeTypes, toggleTheme, resetTheme } from '../store'
 
 injectGlobal`
   * { margin: 0; padding: 0; }
@@ -132,21 +130,28 @@ const navigationPaths = ['/', '/blog']
 class Layout extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { isThemeReseted: false }
+    this.state = { isThemeReseted: false, theme: typeof window !== 'undefined' && window.LAYOUT_THEME ? window.LAYOUT_THEME : themeTypes.LIGHT }
     this.handleThemeButtonClick = this.handleThemeButtonClick.bind(this)
   }
 
   handleThemeButtonClick() {
-    this.props.toggleTheme()
+    const {theme} = this.state
+    if(theme === themeTypes.LIGHT) {
+      window.LAYOUT_THEME = themeTypes.DARK      
+      this.setState({ theme: themeTypes.DARK })
+    }
+
+    if(theme === themeTypes.DARK) {
+      window.LAYOUT_THEME = themeTypes.LIGHT            
+      this.setState({ theme: themeTypes.LIGHT })
+    }
   }
 
   componentDidMount() {
     // Reset theme if this component is rendered on server
     // because we need to get the client's time.
-    if (this.props.isServer) {
-      this.props.resetTheme()
-      this.setState({ isThemeReseted: true })
-    }
+    const theme = window.LAYOUT_THEME ? window.LAYOUT_THEME : determineInitialTheme()
+    this.setState({ theme, isThemeReseted: true })
   }
 
   render() {
@@ -166,15 +171,15 @@ class Layout extends React.Component {
     const title = 'Wilbert Liu'
     const siteUrl = `https://wilbertliu.com${pathname}`
     const theme =
-      this.props.theme === themeTypes.LIGHT ? normalTheme : darkTheme
+      this.state.theme === themeTypes.LIGHT ? normalTheme : darkTheme
     const themeWording =
-      this.props.theme === themeTypes.LIGHT ? themeTypes.DARK : themeTypes.LIGHT
+      this.state.theme === themeTypes.LIGHT ? themeTypes.DARK : themeTypes.LIGHT
 
     return (
       <ThemeProvider theme={theme}>
         <Root isServer={isServer} isThemeReseted={isThemeReseted}>
           <Container noScroll={!pathname.startsWith('/blog')}>
-            <Helmet>
+            <Head>
               <title>
                 {title}
                 {pageName !== '' ? ` · ${pageName}` : ''}
@@ -189,7 +194,7 @@ class Layout extends React.Component {
                 href="/static/favicon.png"
               />
               <link rel="canonical" href={siteUrl} />
-            </Helmet>
+            </Head>
 
             <Navigation>
               {navigations.map((str, idx) => (
@@ -227,13 +232,4 @@ class Layout extends React.Component {
   }
 }
 
-const mapStateToProps = ({ theme }) => ({ theme })
-
-const mapDispatchToProps = dispatch => {
-  return {
-    toggleTheme: bindActionCreators(toggleTheme, dispatch),
-    resetTheme: bindActionCreators(resetTheme, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout)
+export default Layout

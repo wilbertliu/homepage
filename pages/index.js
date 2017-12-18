@@ -5,9 +5,7 @@ import FaMedium from 'react-icons/lib/fa/medium'
 import FaGithub from 'react-icons/lib/fa/github'
 import FaInstagram from 'react-icons/lib/fa/instagram'
 import media from '../layouts/media'
-import Helmet from 'react-helmet'
-import { initStore } from '../store'
-import withRedux from 'next-redux-wrapper'
+import Head from 'next/head'
 
 const StyledMain = styled.main`
   align-self: flex-start;
@@ -113,12 +111,12 @@ const StyledLink = styled.a`
 
 const IndexPage = props => (
   <Layout pathname={props.pathname} isServer={props.isServer}>
-    <Helmet>
+    <Head>
       <link
         href="https://fonts.googleapis.com/css?family=Poppins:300,500,600"
         rel="stylesheet"
       />
-    </Helmet>
+    </Head>
 
     <StyledMain>
       <StyledName>Wilbert Liu</StyledName>
@@ -150,11 +148,8 @@ const IndexPage = props => (
 )
 
 IndexPage.getInitialProps = async ({ pathname, req }) => {
-  const isServer = !!req
-  if (isServer) {
-    Helmet.renderStatic()
-  }
-  return { pathname: pathname, isServer: isServer }
+  const isServer = typeof req !== 'undefined'
+  return { pathname: pathname, isServer }
 }
 
-export default withRedux(initStore)(IndexPage)
+export default IndexPage

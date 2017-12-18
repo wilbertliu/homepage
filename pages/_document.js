@@ -1,6 +1,5 @@
 import Document, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
-import Helmet from 'react-helmet'
 
 export default class extends Document {
   static getInitialProps({ renderPage }) {
@@ -9,48 +8,17 @@ export default class extends Document {
       sheet.collectStyles(<App {...props} />)
     )
     const styleTags = sheet.getStyleElement()
-    return { ...page, styleTags, helmet: Helmet.renderStatic() }
-  }
-
-  // should render on <html>
-  get helmetHtmlAttrComponents() {
-    return this.props.helmet.htmlAttributes.toComponent()
-  }
-
-  // should render on <body>
-  get helmetBodyAttrComponents() {
-    return this.props.helmet.bodyAttributes.toComponent()
-  }
-
-  // should render on <head>
-  get helmetHeadComponents() {
-    return Object.keys(this.props.helmet)
-      .filter(el => el !== 'htmlAttributes' && el !== 'bodyAttributes')
-      .map(el => this.props.helmet[el].toComponent())
-  }
-
-  get helmetJsx() {
-    return (
-      <Helmet
-        htmlAttributes={{ lang: 'en' }}
-        title="Hello next.js!"
-        meta={[
-          { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-          { property: 'og:title', content: 'Hello next.js!' }
-        ]}
-      />
-    )
+    return { ...page, styleTags }
   }
 
   render() {
     return (
-      <html {...this.helmetHtmlAttrComponents}>
+      <html lang="en">
         <Head>
-          {this.helmetJsx}
-          {this.helmetHeadComponents}
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           {this.props.styleTags}
         </Head>
-        <body {...this.helmetBodyAttrComponents}>
+        <body>
           <Main />
           <NextScript />
         </body>
