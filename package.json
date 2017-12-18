@@ -23,11 +23,13 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
-    "styled-components": "^2.2.4"
+    "styled-components": "^2.2.4",
+    "webpack-bundle-analyzer": "^2.9.1"
   },
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production node server.js",
+    "analyze": "ANALYZE=1 next build"
   }
 }
