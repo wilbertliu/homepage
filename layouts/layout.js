@@ -8,7 +8,7 @@ import Navigation from '../components/navigation'
 import NavigationLink from '../components/navigation-link'
 import Footer from '../components/footer'
 import media from './media'
-import * as FontAwesome from 'react-icons/lib/fa'
+import FaMoonO from 'react-icons/lib/fa/moon-o'
 import Loader from '../components/loader'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -91,7 +91,7 @@ const StyledLi = styled.li`
   `};
 `
 
-const ThemeMoon = styled(FontAwesome.FaMoonO)`
+const ThemeMoon = styled(FaMoonO)`
   display: inline-block;
   position: absolute;
   top: 50%;

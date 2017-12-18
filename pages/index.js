@@ -1,6 +1,9 @@
 import Layout from '../layouts/layout'
 import styled from 'styled-components'
-import * as FontAwesome from 'react-icons/lib/fa'
+import FaTwitter from 'react-icons/lib/fa/twitter'
+import FaMedium from 'react-icons/lib/fa/medium'
+import FaGithub from 'react-icons/lib/fa/github'
+import FaInstagram from 'react-icons/lib/fa/instagram'
 import media from '../layouts/media'
 import Helmet from 'react-helmet'
 import { initStore } from '../store'
@@ -127,19 +130,19 @@ const IndexPage = props => (
 
       <StyledLinkSection>
         <StyledLink href="https://twitter.com/wilbertliu" target="__blank">
-          <FontAwesome.FaTwitter />
+          <FaTwitter />
         </StyledLink>
 
         <StyledLink href="https://medium.com/@wilbertliu" target="__blank">
-          <FontAwesome.FaMedium />
+          <FaMedium />
         </StyledLink>
 
         <StyledLink href="https://github.com/wilbertliu" target="__blank">
-          <FontAwesome.FaGithub />
+          <FaGithub />
         </StyledLink>
 
         <StyledLink href="https://instagram.com/wilbertliu/" target="__blank">
-          <FontAwesome.FaInstagram />
+          <FaInstagram />
         </StyledLink>
       </StyledLinkSection>
     </StyledMain>
