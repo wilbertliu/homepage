@@ -1,16 +1,16 @@
 import styled, { keyframes } from 'styled-components'
 import media from '../layouts/media'
-import normalTheme from '../themes/normal-theme'
+import darkTheme from '../themes/dark-theme'
 
 const loadingAnimation = keyframes`
-  0%, 100% {
+  0%, 80%, 100% {
     -webkit-transform: scale(0);
-    transform: scale(0);
+            transform: scale(0);
   }
 
-  50% {
+  40% {
     -webkit-transform: scale(1);
-    transform: scale(1);
+            transform: scale(1);
   }
 `
 
@@ -20,54 +20,41 @@ const Root = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: ${darkTheme.color.background};
 `
 
 const Spinner = styled.div`
-  color: ${normalTheme.color.primary};
-  width: 264px;
-  height: 264px;
-  position: relative;
+  color: ${darkTheme.color.primary};
 `
 
-const SpinnerChild1 = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: ${normalTheme.color.secondary};
-  opacity: 0.5;
-  position: absolute;
-  top: 0;
-  left: 0;
-  -webkit-animation: ${loadingAnimation} 2s infinite ease-in-out;
-  animation: ${loadingAnimation} 2s infinite ease-in-out;
-`
-
-const SpinnerChild2 = SpinnerChild1.extend`
-  -webkit-animation-delay: -1s;
-  animation-delay: -1s;
-`
-
-const StyledSpan = styled.span`
+const SpinnerChild3 = styled.div`
+  width: 40px;
+  height: 40px;
+  background-color: ${darkTheme.color.primary};
+  border-radius: 100%;
   display: inline-block;
-  width: 100%;
-  margin-top: 32px;
-  text-align: center;
-  font-family: ${normalTheme.font.primary};
-  font-weight: ${normalTheme.font.weight.medium};
-  font-size: 12px;
-  color: ${props => normalTheme.color.primary};
-  letter-spacing: 3px;
+  -webkit-animation: ${loadingAnimation} 1.4s ease-in-out 0s infinite both;
+  animation: ${loadingAnimation} 1.4s ease-in-out 0s infinite both;
+`
+
+const SpinnerChild1 = SpinnerChild3.extend`
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+`
+
+const SpinnerChild2 = SpinnerChild3.extend`
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+  margin: 0 4px;
 `
 
 const Loader = () => (
   <Root>
-    <div>
-      <Spinner>
-        <SpinnerChild1 />
-        <SpinnerChild2 />
-      </Spinner>
-      <StyledSpan>PLEASE WAIT...</StyledSpan>
-    </div>
+    <Spinner>
+      <SpinnerChild1 />
+      <SpinnerChild2 />
+      <SpinnerChild3 />
+    </Spinner>
   </Root>
 )
 
