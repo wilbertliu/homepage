@@ -24,17 +24,19 @@ const Container = styled.main`
 const BlogDetailPage = props => (
   <Layout pathname={props.pathname} isServer={props.isServer}>
     <Helmet>
+      <title>{props.post.title}</title>
+      <meta name="description" content={props.post.excerpt} />
       <link
         href="https://fonts.googleapis.com/css?family=Lora:400,400i,700|Poppins:300,500,600"
         rel="stylesheet"
       />
+      <link
+        rel="canonical"
+        href={`https://wilbertliu.com/blog/${props.post.title}`}
+      />
     </Helmet>
 
     <Container>
-      <Helmet>
-        <title>{props.post.title}</title>
-        <meta name="description" content={props.post.excerpt} />
-      </Helmet>
       <article>
         <BlogPost post={props.post} />
       </article>
