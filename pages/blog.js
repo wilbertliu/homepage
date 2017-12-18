@@ -1,9 +1,7 @@
 import Layout from '../layouts/layout'
+import Head from 'next/head'
 import styled from 'styled-components'
 import media from '../layouts/media'
-import Helmet from 'react-helmet'
-import { initStore } from '../store'
-import withRedux from 'next-redux-wrapper'
 import fetch from 'isomorphic-unfetch'
 import BlogPost from '../components/blog-post'
 import Link from 'next/link'
@@ -59,12 +57,12 @@ const Separator = styled.div`
 
 const BlogPage = props => (
   <Layout pathname={props.pathname} isServer={props.isServer}>
-    <Helmet>
+    <Head>
       <link
         href="https://fonts.googleapis.com/css?family=Lora:400,400i,700|Poppins:300,500,600"
         rel="stylesheet"
       />
-    </Helmet>
+    </Head>
 
     <Container>
       {props.posts.map((post, idx) => (
@@ -91,14 +89,10 @@ const BlogPage = props => (
 BlogPage.getInitialProps = async ({ pathname, req }) => {
   const isServer = !!req
 
-  if (isServer) {
-    Helmet.renderStatic()
-  }
-
   const apiPostsRes = await fetch('/api/posts')
   const apiPostsJSON = await apiPostsRes.json()
 
   return { pathname: pathname, isServer: isServer, posts: apiPostsJSON.posts }
 }
 
-export default withRedux(initStore)(BlogPage)
+export default BlogPage

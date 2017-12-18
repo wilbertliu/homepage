@@ -1,10 +1,8 @@
 import Layout from '../layouts/layout'
 import styled from 'styled-components'
 import media from '../layouts/media'
-import Helmet from 'react-helmet'
+import Head from 'next/head'
 import BlogPost from '../components/blog-post'
-import { initStore } from '../store'
-import withRedux from 'next-redux-wrapper'
 
 const Container = styled.main`
   margin: 72px auto;
@@ -23,7 +21,7 @@ const Container = styled.main`
 
 const BlogDetailPage = props => (
   <Layout pathname={props.pathname} isServer={props.isServer}>
-    <Helmet>
+    <Head>
       <title>{props.post.title}</title>
       <meta name="description" content={props.post.excerpt} />
       <link
@@ -34,7 +32,7 @@ const BlogDetailPage = props => (
         rel="canonical"
         href={`https://wilbertliu.com/blog/${props.post.title}`}
       />
-    </Helmet>
+    </Head>
 
     <Container>
       <article>
@@ -47,14 +45,10 @@ const BlogDetailPage = props => (
 BlogDetailPage.getInitialProps = async ({ pathname, req, query }) => {
   const isServer = !!req
 
-  if (isServer) {
-    Helmet.renderStatic()
-  }
-
   const apiPostRes = await fetch(`/api/post/${query.slug}`)
   const apiPostJSON = await apiPostRes.json()
 
   return { pathname: pathname, isServer: isServer, post: apiPostJSON.post }
 }
 
-export default withRedux(initStore)(BlogDetailPage)
+export default BlogDetailPage
