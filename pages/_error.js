@@ -9,7 +9,7 @@ const ErrorPage = props => (
 
 ErrorPage.getInitialProps = async ({ pathname, req }) => {
   const isServer = !!req
-  return { pathname: pathname, isServer: isServer }
+  return { pathname, isServer }
 }
 
 export default ErrorPage

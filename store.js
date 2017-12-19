@@ -9,8 +9,3 @@ export const determineInitialTheme = () => {
     ? themeTypes.LIGHT
     : themeTypes.DARK
 }
-
-const actionTypes = {
-  TOGGLE_THEME: 'TOGGLE_THEME',
-  RESET_THEME: 'RESET_THEME'
-}

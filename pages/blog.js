@@ -89,10 +89,13 @@ const BlogPage = props => (
 BlogPage.getInitialProps = async ({ pathname, req }) => {
   const isServer = !!req
 
-  const apiPostsRes = await fetch('/api/posts')
+  const apiURL = isServer
+    ? `${req.protocol}://${req.headers.host}/api/posts`
+    : '/api/posts'
+  const apiPostsRes = await fetch(apiURL)
   const apiPostsJSON = await apiPostsRes.json()
 
-  return { pathname: pathname, isServer: isServer, posts: apiPostsJSON.posts }
+  return { pathname, isServer, posts: apiPostsJSON.posts }
 }
 
 export default BlogPage

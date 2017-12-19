@@ -13,7 +13,7 @@ export default class extends Document {
 
   render() {
     return (
-      <html lang="en">
+      <html>
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           {this.props.styleTags}

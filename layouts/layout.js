@@ -10,7 +10,7 @@ import Footer from '../components/footer'
 import media from './media'
 import FaMoonO from 'react-icons/lib/fa/moon-o'
 import Loader from '../components/loader'
-import { determineInitialTheme, themeTypes, toggleTheme, resetTheme } from '../store'
+import { determineInitialTheme, themeTypes } from '../store'
 
 injectGlobal`
   * { margin: 0; padding: 0; }
@@ -130,28 +130,36 @@ const navigationPaths = ['/', '/blog']
 class Layout extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { isThemeReseted: false, theme: typeof window !== 'undefined' && window.LAYOUT_THEME ? window.LAYOUT_THEME : themeTypes.LIGHT }
+    this.state = {
+      isThemeReseted: false,
+      theme:
+        typeof window !== 'undefined' && window.LAYOUT_THEME
+          ? window.LAYOUT_THEME
+          : themeTypes.LIGHT
+    }
     this.handleThemeButtonClick = this.handleThemeButtonClick.bind(this)
   }
 
   handleThemeButtonClick() {
-    const {theme} = this.state
-    if(theme === themeTypes.LIGHT) {
-      window.LAYOUT_THEME = themeTypes.DARK      
+    const { theme } = this.state
+
+    if (theme === themeTypes.LIGHT) {
+      window.LAYOUT_THEME = themeTypes.DARK
       this.setState({ theme: themeTypes.DARK })
     }
 
-    if(theme === themeTypes.DARK) {
-      window.LAYOUT_THEME = themeTypes.LIGHT            
+    if (theme === themeTypes.DARK) {
+      window.LAYOUT_THEME = themeTypes.LIGHT
       this.setState({ theme: themeTypes.LIGHT })
     }
   }
 
   componentDidMount() {
-    // Reset theme if this component is rendered on server
-    // because we need to get the client's time.
-    const theme = window.LAYOUT_THEME ? window.LAYOUT_THEME : determineInitialTheme()
-    this.setState({ theme, isThemeReseted: true })
+    if (this.props.isServer) {
+      const theme = determineInitialTheme()
+      window.LAYOUT_THEME = theme
+      this.setState({ theme, isThemeReseted: true })
+    }
   }
 
   render() {
