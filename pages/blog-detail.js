@@ -45,10 +45,13 @@ const BlogDetailPage = props => (
 BlogDetailPage.getInitialProps = async ({ pathname, req, query }) => {
   const isServer = !!req
 
-  const apiPostRes = await fetch(`/api/post/${query.slug}`)
+  const apiURL = isServer
+    ? `${req.protocol}://${req.headers.host}/api/post/${query.slug}`
+    : `/api/post/${query.slug}`
+  const apiPostRes = await fetch(apiURL)
   const apiPostJSON = await apiPostRes.json()
 
-  return { pathname: pathname, isServer: isServer, post: apiPostJSON.post }
+  return { pathname, isServer, post: apiPostJSON.post }
 }
 
 export default BlogDetailPage

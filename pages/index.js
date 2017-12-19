@@ -148,8 +148,8 @@ const IndexPage = props => (
 )
 
 IndexPage.getInitialProps = async ({ pathname, req }) => {
-  const isServer = typeof req !== 'undefined'
-  return { pathname: pathname, isServer }
+  const isServer = !!req
+  return { pathname, isServer }
 }
 
 export default IndexPage
