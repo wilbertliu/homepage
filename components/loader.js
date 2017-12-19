@@ -35,6 +35,16 @@ const SpinnerChild3 = styled.div`
   display: inline-block;
   -webkit-animation: ${loadingAnimation} 1.4s ease-in-out 0s infinite both;
   animation: ${loadingAnimation} 1.4s ease-in-out 0s infinite both;
+
+  ${media.phoneLarge`
+    width: 32px;
+    height: 32px;
+  `};
+
+  ${media.phoneMedium`
+    width: 24px;
+    height: 24px;
+  `};
 `
 
 const SpinnerChild1 = SpinnerChild3.extend`
