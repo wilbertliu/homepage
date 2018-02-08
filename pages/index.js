@@ -6,6 +6,7 @@ import FaGithub from 'react-icons/lib/fa/github'
 import FaInstagram from 'react-icons/lib/fa/instagram'
 import media from '../layouts/media'
 import Head from 'next/head'
+import { logOutboundLink } from '../utilities/analytics'
 
 const StyledMain = styled.main`
   align-self: flex-start;
@@ -127,19 +128,43 @@ const IndexPage = props => (
       </StyledDesc>
 
       <StyledLinkSection>
-        <StyledLink href="https://twitter.com/wilbertliu" target="__blank">
+        <StyledLink
+          href="https://twitter.com/wilbertliu"
+          target="__blank"
+          onClick={() => {
+            logOutboundLink('Clicked Twitter')
+          }}
+        >
           <FaTwitter />
         </StyledLink>
 
-        <StyledLink href="https://medium.com/@wilbertliu" target="__blank">
+        <StyledLink
+          href="https://medium.com/@wilbertliu"
+          target="__blank"
+          onClick={() => {
+            logOutboundLink('Clicked Medium')
+          }}
+        >
           <FaMedium />
         </StyledLink>
 
-        <StyledLink href="https://github.com/wilbertliu" target="__blank">
+        <StyledLink
+          href="https://github.com/wilbertliu"
+          target="__blank"
+          onClick={() => {
+            logOutboundLink('Clicked GitHub')
+          }}
+        >
           <FaGithub />
         </StyledLink>
 
-        <StyledLink href="https://instagram.com/wilbertliu/" target="__blank">
+        <StyledLink
+          href="https://instagram.com/wilbertliu/"
+          target="__blank"
+          onClick={() => {
+            logOutboundLink('Clicked Instagram')
+          }}
+        >
           <FaInstagram />
         </StyledLink>
       </StyledLinkSection>

@@ -11,6 +11,7 @@ import media from './media'
 import FaMoonO from 'react-icons/lib/fa/moon-o'
 import Loader from '../components/loader'
 import { determineInitialTheme, themeTypes } from '../store'
+import { initGA, logPageView, logEvent } from '../utilities/analytics'
 
 injectGlobal`
   * { margin: 0; padding: 0; }
@@ -146,11 +147,13 @@ class Layout extends React.Component {
     if (theme === themeTypes.LIGHT) {
       window.LAYOUT_THEME = themeTypes.DARK
       this.setState({ theme: themeTypes.DARK })
+      logEvent('Theme', 'Switched to Dark Theme')
     }
 
     if (theme === themeTypes.DARK) {
       window.LAYOUT_THEME = themeTypes.LIGHT
       this.setState({ theme: themeTypes.LIGHT })
+      logEvent('Theme', 'Switched to Light Theme')
     }
   }
 
@@ -159,7 +162,14 @@ class Layout extends React.Component {
       const theme = determineInitialTheme()
       window.LAYOUT_THEME = theme
       this.setState({ theme, isThemeReseted: true })
+      return
     }
+
+    if (!window.GA_INITIALIZED) {
+      initGA()
+      window.GA_INITIALIZED = true
+    }
+    logPageView()
   }
 
   render() {
