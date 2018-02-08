@@ -231,7 +231,7 @@ class Layout extends React.Component {
 
             <Footer>
               Thoughtfully designed with care and love <br />
-              Copyright © 2017 Wilbert Liu
+              Copyright © 2017-2018 Wilbert Liu
             </Footer>
           </Container>
         </Root>
