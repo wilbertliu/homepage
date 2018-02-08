@@ -17,6 +17,6 @@ export const logEvent = (category = '', action = '') => {
 
 export const logOutboundLink = (label = '') => {
   if (label) {
-    ReactGA.outboundLink({ label: label }, null)
+    ReactGA.outboundLink({ label: label }, () => {})
   }
 }

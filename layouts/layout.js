@@ -158,6 +158,11 @@ class Layout extends React.Component {
   }
 
   componentDidMount() {
+    if (!window.GA_INITIALIZED) {
+      initGA()
+      window.GA_INITIALIZED = true
+    }
+
     if (this.props.isServer) {
       const theme = determineInitialTheme()
       window.LAYOUT_THEME = theme
@@ -165,10 +170,6 @@ class Layout extends React.Component {
       return
     }
 
-    if (!window.GA_INITIALIZED) {
-      initGA()
-      window.GA_INITIALIZED = true
-    }
     logPageView()
   }
 
