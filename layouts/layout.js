@@ -201,7 +201,7 @@ class Layout extends React.Component {
                 type="image/png"
                 href="/static/favicon.png"
               />
-              <link rel="canonical" href={siteUrl} />
+              <link rel="canonical" href={siteUrl} key="canonical" />
             </Head>
 
             <Navigation>

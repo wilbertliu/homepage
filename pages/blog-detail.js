@@ -30,7 +30,11 @@ const BlogDetailPage = props => (
       />
       <link
         rel="canonical"
-        href={`https://wilbertliu.com/blog/${props.post.title}`}
+        href={`https://wilbertliu.com/blog/${props.post.title
+          .toLowerCase()
+          .replace(/ /g, '-')
+          .replace(/[^\w-]+/g, '')}`}
+        key="canonical"
       />
     </Head>
 
